@@ -2,25 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JModel : MonoBehaviour
+public class JModel
 {
-    List<Vector3> Verticies = new List<Vector3>();
+    internal List<Vector3> Verticies;
 
-    List<Vector3Int> Faces = new List<Vector3Int>();
+    List<Vector3Int> Faces;
 
-    List<Vector2> _texture_coordinates = new List<Vector2>();
+    List<Vector2> _texture_coordinates;
 
-    List<Vector3Int>_texture_index_list = new List<Vector3Int>();
+    List<Vector3Int> _texture_index_list;
 
-    List<Vector3> normals = new List<Vector3>();
+    List<Vector3> normals;
 
     GameObject _gameObject;
 
     public GameObject CreateUnityGameObject()
     {
 
-        AddAllVerticies();
-        AddAllFaces(); 
+
         //AddToTextures();
 
         Mesh mesh = new Mesh();
@@ -81,9 +80,10 @@ public class JModel : MonoBehaviour
     }
 
 
-    public void Start()
+    public JModel()
     {
-        _gameObject = CreateUnityGameObject();
+        AddAllVerticies();
+        AddAllFaces();
     }
 
     private void Update()
@@ -93,6 +93,8 @@ public class JModel : MonoBehaviour
 
     void AddAllVerticies()
     {
+        _texture_coordinates = new List<Vector2>();
+        Verticies = new List<Vector3>();
         Verticies.Add(new Vector3(0, 0, 1)); _texture_coordinates.Add(new Vector2(0.5625f, 0.5f));
         Verticies.Add(new Vector3(-1, -1, 1)); _texture_coordinates.Add(new Vector2(0.53125f, 0.53125f));
         Verticies.Add(new Vector3(-2, -1, 1)); _texture_coordinates.Add(new Vector2(0.530273438f, 0.561523438f));
@@ -130,6 +132,9 @@ public class JModel : MonoBehaviour
     void AddAllFaces()
     {
         //Front
+        Faces = new List<Vector3Int>();
+        _texture_index_list = new List<Vector3Int>();
+        normals = new List<Vector3>();
 
         Faces.Add(new Vector3Int(11, 12, 14));  normals.Add(new Vector3(0, 0, 1)); _texture_index_list.Add(new Vector3Int(11, 12, 14));
         Faces.Add(new Vector3Int(12, 13, 14)); normals.Add(new Vector3(0, 0, 1)); _texture_index_list.Add(new Vector3Int(12, 13, 14));
@@ -197,8 +202,8 @@ public class JModel : MonoBehaviour
 
     void AddToTextures()
     {
-         
 
+        _texture_index_list = new List<Vector3Int>();
 
 
         _texture_index_list.Add(new Vector3Int(0, 0, 1));
