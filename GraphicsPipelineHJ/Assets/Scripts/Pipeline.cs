@@ -10,16 +10,107 @@ public class Pipeline : MonoBehaviour
     List<Vector3> verts;
     JModel MyModel;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        //Rotation
+
+        string path = "Assets/Output.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer = new StreamWriter(path, true);
+
+        MyModel = new JModel();
+        MyModel.CreateUnityGameObject();
+
+
+        verts = MyModel.Verticies;
+
+
+        print_verts(verts, writer);
+
+        // Quaternion.AngleAxis(90, Vector3.up)
+        Matrix4x4 rotation_matrix = create_RotationMatrix();
+
+        print_matrix(rotation_matrix, writer);
+
+        List<Vector3> image_after_rotation = get_image(verts, rotation_matrix);
+
+        print_verts(image_after_rotation, writer);
+
+        writer.Close();
+
+
+        //Scale
+
+
+        string path2 = "Assets/Scale.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer2 = new StreamWriter(path2, true);
+
+        Matrix4x4 scale_matrix = create_ScaleMatrix();
+
+
+        print_matrix(scale_matrix, writer);
+
+
+        List<Vector3> image_after_scale = get_image(image_after_rotation, scale_matrix);
+
+        print_verts(image_after_scale, writer2);
+
+        writer2.Close();
+
+
+        //Translation
+
+
+        string path3 = "Assets/Translation.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer3 = new StreamWriter(path3, true);
+
+
+        // Quaternion.AngleAxis(90, Vector3.up)
+        Matrix4x4 translation_matrix = create_TranslationMatrix();
+
+
+        print_matrix(translation_matrix, writer3);
+
+
+        List<Vector3> image_after_translation = get_image(image_after_scale, translation_matrix);
+
+        print_verts(image_after_translation, writer3);
+
+        writer3.Close();
+
+
+        string path4 = "Assets/SingleMatrix.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer4 = new StreamWriter(path4, true);
+
+
+        Matrix4x4 rotationMatrix = create_RotationMatrix();
+        Matrix4x4 scaleMatrix = create_ScaleMatrix();
+        Matrix4x4 translationMatrix = create_TranslationMatrix();
+
+        Matrix4x4 single_matrix = translationMatrix * scaleMatrix * rotationMatrix;
+
+
+        print_matrix(single_matrix, writer4);
+
+
+        List<Vector3> image_after_single = get_image(image_after_translation, single_matrix);
+
+        print_verts(image_after_single, writer4);
+
+        writer4.Close();
+
+
         //print_All_Verts_Matrix();
         //print_Scale_Matrix_Image();
         //print_Translation_Matrix_Image();
-        print_Viewing_Matrix_Image();
+        //print_Viewing_Matrix_Image();
+        print_Single_Matrix_Of_Transformation();
     }
-
-    
 
     private List<Vector3> get_image(List<Vector3> list_verts, Matrix4x4 transform_matrix)
     {
@@ -27,7 +118,9 @@ public class Pipeline : MonoBehaviour
 
         foreach (Vector3 v in list_verts)
         {
-            hold.Add(transform_matrix * v);
+            Vector4 V2 = new Vector4(v.x, v.y, v.z, 1);
+
+            hold.Add(transform_matrix * V2);
         }
         return hold;
 
@@ -72,14 +165,10 @@ public class Pipeline : MonoBehaviour
 
         print_verts(verts, writer);
 
-        Vector3 axis = new Vector3(17, -4, -4);
-        axis.Normalize();
         // Quaternion.AngleAxis(90, Vector3.up)
-        Matrix4x4 rotation_matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.AngleAxis(32, axis), Vector3.one);
-
+        Matrix4x4 rotation_matrix = create_RotationMatrix();
 
         print_matrix(rotation_matrix, writer);
-
 
         List<Vector3> image_after_rotation = get_image(verts, rotation_matrix);
 
@@ -100,16 +189,7 @@ public class Pipeline : MonoBehaviour
 
         verts = MyModel.Verticies;
 
-
-        print_verts(verts, writer);
-
-        Vector3 axis = new Vector3(17, -4, -4);
-        axis.Normalize();
-
-        Vector3 GivenScale = new Vector3(5, 4, 4);
-
-        // Quaternion.AngleAxis(90, Vector3.up)
-        Matrix4x4 scale_matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.AngleAxis(32, axis), GivenScale);
+        Matrix4x4 scale_matrix = create_ScaleMatrix();
 
 
         print_matrix(scale_matrix, writer);
@@ -137,13 +217,8 @@ public class Pipeline : MonoBehaviour
 
         print_verts(verts, writer);
 
-        Vector3 axis = new Vector3(17, -4, -4);
-        axis.Normalize();
-
-        Vector3 GivenTranslation = new Vector3(-3,3,-3);
-
         // Quaternion.AngleAxis(90, Vector3.up)
-        Matrix4x4 translation_matrix = Matrix4x4.TRS(GivenTranslation, Quaternion.AngleAxis(32, axis), Vector3.one);
+        Matrix4x4 translation_matrix = create_TranslationMatrix();
 
 
         print_matrix(translation_matrix, writer);
@@ -185,6 +260,65 @@ public class Pipeline : MonoBehaviour
         List<Vector3> image_after_viewing = get_image(verts, viewing_matrix);
 
         print_verts(image_after_viewing, writer);
+
+        writer.Close();
+    }
+
+    private Matrix4x4 create_RotationMatrix()
+    {
+        Vector3 axis = new Vector3(17, -4, -4);
+        axis.Normalize();
+        // Quaternion.AngleAxis(90, Vector3.up)
+        Matrix4x4 rotation_matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.AngleAxis(32, axis), Vector3.one);
+
+        return rotation_matrix;
+    }
+
+    private Matrix4x4 create_ScaleMatrix()
+    {
+        Vector3 GivenScale = new Vector3(5, 4, 4);
+
+        // Quaternion.AngleAxis(90, Vector3.up)
+        Matrix4x4 scale_matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, GivenScale);
+
+        return scale_matrix;
+    }
+
+    private Matrix4x4 create_TranslationMatrix()
+    {
+        Vector3 GivenTranslation = new Vector3(-3, 3, -3);
+
+        // Quaternion.AngleAxis(90, Vector3.up)
+        Matrix4x4 translation_matrix = Matrix4x4.TRS(GivenTranslation, Quaternion.identity, Vector3.one);
+
+        return translation_matrix;
+    }
+
+    private void print_Single_Matrix_Of_Transformation()
+    {
+        string path = "Assets/SingleMatrix.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer = new StreamWriter(path, true);
+
+        MyModel = new JModel();
+        MyModel.CreateUnityGameObject();
+
+
+        verts = MyModel.Verticies;
+
+        Matrix4x4 rotationMatrix = create_RotationMatrix();
+        Matrix4x4 scaleMatrix = create_ScaleMatrix();
+        Matrix4x4 translationMatrix = create_TranslationMatrix();
+
+        Matrix4x4 single_matrix = translationMatrix * scaleMatrix * rotationMatrix;
+
+
+        print_matrix(single_matrix, writer);
+
+
+        List<Vector3> image_after_single = get_image(verts, single_matrix);
+
+        print_verts(image_after_single, writer);
 
         writer.Close();
     }
