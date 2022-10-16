@@ -51,7 +51,7 @@ public class Pipeline : MonoBehaviour
         Matrix4x4 scale_matrix = create_ScaleMatrix();
 
 
-        print_matrix(scale_matrix, writer);
+        print_matrix(scale_matrix, writer2);
 
 
         List<Vector3> image_after_scale = get_image(image_after_rotation, scale_matrix);
@@ -105,11 +105,85 @@ public class Pipeline : MonoBehaviour
         writer4.Close();
 
 
+        string path5 = "Assets/Viewing.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer5 = new StreamWriter(path5, true);
+
+
+        Vector3 camPos = new Vector3(19, -1, 46);
+        Vector3 camLookAt = new Vector3(-4, 17, -4);
+        Vector3 camUp = new Vector3(-3, -4, 17);
+
+        camLookAt.Normalize();
+        camUp.Normalize();
+
+        Matrix4x4 viewing_matrix = Matrix4x4.LookAt(camPos, camLookAt, camUp);
+
+
+        print_matrix(viewing_matrix, writer5);
+
+
+        List<Vector3> image_after_viewing = get_image(image_after_single, viewing_matrix);
+
+        print_verts(image_after_viewing, writer5);
+
+        writer5.Close();
+
+
+        string path6 = "Assets/projection.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer6 = new StreamWriter(path6, true);
+
+        Matrix4x4 projection_matrix = Matrix4x4.Perspective(90,1,1,1000);
+
+
+        print_matrix(projection_matrix, writer6);
+
+
+        List<Vector3> image_after_Projection = get_image(image_after_viewing, projection_matrix);
+
+        print_verts(image_after_Projection, writer6);
+
+        writer6.Close();
+
+
+        string path7 = "Assets/AfterEverything.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer7 = new StreamWriter(path7, true);
+
+        Matrix4x4 afterEverything_matrix = projection_matrix* viewing_matrix * single_matrix;
+
+
+        print_matrix(afterEverything_matrix, writer7);
+
+
+        List<Vector3> image_after_Everything = get_image(image_after_viewing, projection_matrix);
+
+        print_verts(image_after_Everything, writer7);
+
+        writer7.Close();
+
+
+        string path8 = "Assets/AfterEverything.txt";
+        //Write some text to the test.txt file
+        StreamWriter writer8 = new StreamWriter(path8, true);
+
+        List<Vector2> projectionByHand = new List<Vector2>();
+        foreach(Vector3 MyVector in image_after_viewing)
+        {
+            projectionByHand.Add(new Vector2(MyVector.x / MyVector.z, MyVector.y / MyVector.z));
+        }
+
+        print_2D(projectionByHand, writer8);
+
+        writer8.Close();
+
+
         //print_All_Verts_Matrix();
         //print_Scale_Matrix_Image();
         //print_Translation_Matrix_Image();
         //print_Viewing_Matrix_Image();
-        print_Single_Matrix_Of_Transformation();
+        //print_Single_Matrix_Of_Transformation();
     }
 
     private List<Vector3> get_image(List<Vector3> list_verts, Matrix4x4 transform_matrix)
@@ -322,6 +396,17 @@ public class Pipeline : MonoBehaviour
 
         writer.Close();
     }
+
+
+    private void print_2D(List<Vector2> v_list, StreamWriter writer)
+    {
+        foreach (Vector2 v in v_list)
+        {
+            writer.WriteLine(v.x.ToString() + "   ,   " + v.y.ToString());
+
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
