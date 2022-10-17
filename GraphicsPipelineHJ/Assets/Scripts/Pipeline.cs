@@ -164,7 +164,7 @@ public class Pipeline : MonoBehaviour
         writer7.Close();
 
 
-        string path8 = "Assets/AfterEverything.txt";
+        string path8 = "Assets/2D.txt";
         //Write some text to the test.txt file
         StreamWriter writer8 = new StreamWriter(path8, true);
 
