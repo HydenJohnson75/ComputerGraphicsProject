@@ -98,7 +98,7 @@ public class Pipeline : MonoBehaviour
         print_matrix(single_matrix, writer4);
 
 
-        List<Vector3> image_after_single = get_image(image_after_translation, single_matrix);
+        List<Vector3> image_after_single = get_image(verts, single_matrix);
 
         print_verts(image_after_single, writer4);
 
@@ -117,7 +117,7 @@ public class Pipeline : MonoBehaviour
         camLookAt.Normalize();
         camUp.Normalize();
 
-        Matrix4x4 viewing_matrix = Matrix4x4.LookAt(camPos, camLookAt, camUp);
+        Matrix4x4 viewing_matrix = Matrix4x4.LookAt(camPos, camLookAt, Vector3.up);
 
 
         print_matrix(viewing_matrix, writer5);
