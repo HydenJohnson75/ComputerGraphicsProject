@@ -95,38 +95,84 @@ public class JModel
     {
         _texture_coordinates = new List<Vector2>();
         Verticies = new List<Vector3>();
-        Verticies.Add(new Vector3(0, 0, 1)); _texture_coordinates.Add(new Vector2(0.5625f, 0.5f));
-        Verticies.Add(new Vector3(-1, -1, 1)); _texture_coordinates.Add(new Vector2(0.53125f, 0.53125f));
-        Verticies.Add(new Vector3(-2, -1, 1)); _texture_coordinates.Add(new Vector2(0.530273438f, 0.561523438f));
-        Verticies.Add(new Vector3(-3, 0, 1)); _texture_coordinates.Add(new Vector2(0.5625f, 0.59375f));
-        Verticies.Add(new Vector3(-4, -1, 1)); _texture_coordinates.Add(new Vector2(0.53125f, 0.625f));
-        Verticies.Add(new Vector3(-3, -2, 1)); _texture_coordinates.Add(new Vector2(0.5f, 0.59375f));
-        Verticies.Add(new Vector3(-2, -2, 1)); _texture_coordinates.Add(new Vector2(0.5f, 0.561523438f));
-        Verticies.Add(new Vector3(-1, -2, 1)); _texture_coordinates.Add(new Vector2(0.5f, 0.53125f));
-        Verticies.Add(new Vector3(0, -2, 1)); _texture_coordinates.Add(new Vector2(0.5f, 0.5f));
-        Verticies.Add(new Vector3(1, -1, 1)); _texture_coordinates.Add(new Vector2(0.530273438f, 0.46875f));
-        Verticies.Add(new Vector3(1, 3, 1)); _texture_coordinates.Add(new Vector2(0.655273438f, 0.46875f));
-        Verticies.Add(new Vector3(3, 3, 1)); _texture_coordinates.Add(new Vector2(0.655273438f, 0.40625f));
-        Verticies.Add(new Vector3(3, 4, 1)); _texture_coordinates.Add(new Vector2(0.6875f, 0.40625f));
-        Verticies.Add(new Vector3(-2, 4, 1)); _texture_coordinates.Add(new Vector2(0.6875f, 0.561523438f));
-        Verticies.Add(new Vector3(-2, 3, 1)); _texture_coordinates.Add(new Vector2(0.655273438f, 0.561523438f));
-        Verticies.Add(new Vector3(0, 3, 1)); _texture_coordinates.Add(new Vector2(0.655273438f, 0.5f));
-        Verticies.Add(new Vector3(0, 0, -1)); _texture_coordinates.Add(new Vector2(0.375f, 0.5f));
-        Verticies.Add(new Vector3(-1, -1, -1)); _texture_coordinates.Add(new Vector2(0.40625f, 0.53125f));
-        Verticies.Add(new Vector3(-2, -1, -1)); _texture_coordinates.Add(new Vector2(0.40625f, 0.561523438f));
-        Verticies.Add(new Vector3(-3, 0, -1)); _texture_coordinates.Add(new Vector2(0.375f, 0.59375f));
-        Verticies.Add(new Vector3(-4, -1, -1)); _texture_coordinates.Add(new Vector2(0.40625f, 0.625f));
-        Verticies.Add(new Vector3(-3, -2, -1)); _texture_coordinates.Add(new Vector2(0.4375f, 0.59375f));
-        Verticies.Add(new Vector3(-2, -2, -1)); _texture_coordinates.Add(new Vector2(0.4375f, 0.561523438f));
-        Verticies.Add(new Vector3(-1, -2, -1)); _texture_coordinates.Add(new Vector2(0.4375f, 0.53125f));
-        Verticies.Add(new Vector3(0, -2, -1)); _texture_coordinates.Add(new Vector2(0.22265625f, 0.5f));
-        Verticies.Add(new Vector3(1, -1, -1)); _texture_coordinates.Add(new Vector2(0.40625f, 0.46875f));
-        Verticies.Add(new Vector3(1, 3, -1)); _texture_coordinates.Add(new Vector2(0.28125f, 0.46875f));
-        Verticies.Add(new Vector3(3, 3, -1)); _texture_coordinates.Add(new Vector2(0.28125f, 0.40625f));
-        Verticies.Add(new Vector3(3, 4, -1)); _texture_coordinates.Add(new Vector2(0.249023438f, 0.40625f));
-        Verticies.Add(new Vector3(-2, 4, -1)); _texture_coordinates.Add(new Vector2(0.249023438f, 0.561523438f));
-        Verticies.Add(new Vector3(-2, 3, -1)); _texture_coordinates.Add(new Vector2(0.28125f, 0.561523438f));
-        Verticies.Add(new Vector3(0, 3, -1)); _texture_coordinates.Add(new Vector2(0.28125f, 0.5f));
+
+        //Front
+
+        Verticies.Add(new Vector3(0, 0, 1)); _texture_coordinates.Add(new Vector2(511,383)); //0
+        Verticies.Add(new Vector3(-1, -1, 1)); _texture_coordinates.Add(new Vector2(447, 448)); //1
+        Verticies.Add(new Vector3(-2, -1, 1)); _texture_coordinates.Add(new Vector2(381, 448)); //2
+        Verticies.Add(new Vector3(-3, 0, 1)); _texture_coordinates.Add(new Vector2(319, 384)); //3
+        Verticies.Add(new Vector3(-4, -1, 1)); _texture_coordinates.Add(new Vector2(256, 447)); //4
+        Verticies.Add(new Vector3(-3, -2, 1)); _texture_coordinates.Add(new Vector2(318, 510)); //5
+        Verticies.Add(new Vector3(-2, -2, 1)); _texture_coordinates.Add(new Vector2(383, 512)); //6
+        Verticies.Add(new Vector3(-1, -2, 1)); _texture_coordinates.Add(new Vector2(446, 512)); //7
+        Verticies.Add(new Vector3(0, -2, 1)); _texture_coordinates.Add(new Vector2(511, 512)); //8
+        Verticies.Add(new Vector3(1, -1, 1)); _texture_coordinates.Add(new Vector2(575, 448)); //9
+        Verticies.Add(new Vector3(1, 3, 1)); _texture_coordinates.Add(new Vector2(576, 190)); //10
+        Verticies.Add(new Vector3(3, 3, 1)); _texture_coordinates.Add(new Vector2(704, 190)); //11
+        Verticies.Add(new Vector3(3, 4, 1)); _texture_coordinates.Add(new Vector2(704, 127)); //12
+        Verticies.Add(new Vector3(-2, 4, 1)); _texture_coordinates.Add(new Vector2(383, 127)); //13
+        Verticies.Add(new Vector3(-2, 3, 1)); _texture_coordinates.Add(new Vector2(383, 190)); //14
+        Verticies.Add(new Vector3(0, 3, 1)); _texture_coordinates.Add(new Vector2(511, 190)); //15
+
+        //Back
+
+        Verticies.Add(new Vector3(0, 0, -1)); _texture_coordinates.Add(new Vector2(512, 703)); //16
+        Verticies.Add(new Vector3(-1, -1, -1)); _texture_coordinates.Add(new Vector2(447, 639)); //17
+        Verticies.Add(new Vector3(-2, -1, -1)); _texture_coordinates.Add(new Vector2(383, 638)); //18
+        Verticies.Add(new Vector3(-3, 0, -1)); _texture_coordinates.Add(new Vector2(318, 703)); //19
+        Verticies.Add(new Vector3(-4, -1, -1)); _texture_coordinates.Add(new Vector2(256, 650)); //20
+        Verticies.Add(new Vector3(-3, -2, -1)); _texture_coordinates.Add(new Vector2(319, 577)); //21
+        Verticies.Add(new Vector3(-2, -2, -1)); _texture_coordinates.Add(new Vector2(383, 577)); //22
+        Verticies.Add(new Vector3(-1, -2, -1)); _texture_coordinates.Add(new Vector2(447, 577)); //23
+        Verticies.Add(new Vector3(0, -2, -1)); _texture_coordinates.Add(new Vector2(512, 577)); //24
+        Verticies.Add(new Vector3(1, -1, -1)); _texture_coordinates.Add(new Vector2(575, 639)); //25
+        Verticies.Add(new Vector3(1, 3, -1)); _texture_coordinates.Add(new Vector2(574, 864)); //26
+        Verticies.Add(new Vector3(3, 3, -1)); _texture_coordinates.Add(new Vector2(704, 865)); //27
+        Verticies.Add(new Vector3(3, 4, -1)); _texture_coordinates.Add(new Vector2(704, 928)); //28
+        Verticies.Add(new Vector3(-2, 4, -1)); _texture_coordinates.Add(new Vector2(383, 928)); //29
+        Verticies.Add(new Vector3(-2, 3, -1)); _texture_coordinates.Add(new Vector2(383, 862)); //30
+        Verticies.Add(new Vector3(0, 3, -1)); _texture_coordinates.Add(new Vector2(511, 861)); //31
+
+        _texture_coordinates.Add(new Vector2(639, 255)); //32
+        _texture_coordinates.Add(new Vector2(639, 448)); //33
+        _texture_coordinates.Add(new Vector2(639, 511)); //34
+        _texture_coordinates.Add(new Vector2(575, 571)); //35
+        _texture_coordinates.Add(new Vector2(511, 575)); //36
+        _texture_coordinates.Add(new Vector2(319, 576)); //37
+        _texture_coordinates.Add(new Vector2(255, 575)); //38
+        _texture_coordinates.Add(new Vector2(191, 512)); //39
+        _texture_coordinates.Add(new Vector2(194, 384)); //40
+        _texture_coordinates.Add(new Vector2(255, 322)); //41
+        _texture_coordinates.Add(new Vector2(382, 320)); //42
+        _texture_coordinates.Add(new Vector2(443, 383)); //43
+        _texture_coordinates.Add(new Vector2(94, 736)); //44
+        _texture_coordinates.Add(new Vector2(157, 736)); //45
+        _texture_coordinates.Add(new Vector2(383, 703)); //46
+        _texture_coordinates.Add(new Vector2(447, 765)); //47
+        _texture_coordinates.Add(new Vector2(448, 384)); //48
+        _texture_coordinates.Add(new Vector2(448, 256)); //49
+        _texture_coordinates.Add(new Vector2(383, 255)); //50
+        _texture_coordinates.Add(new Vector2(319, 191)); //51
+        _texture_coordinates.Add(new Vector2(318, 126)); //52
+        _texture_coordinates.Add(new Vector2(383, 65)); //53
+        _texture_coordinates.Add(new Vector2(700, 63)); //54
+        _texture_coordinates.Add(new Vector2(768, 129)); //55
+        _texture_coordinates.Add(new Vector2(767, 191)); //56
+        _texture_coordinates.Add(new Vector2(703, 256)); //57
+
+        _texture_coordinates = GetValuesRel(1024, _texture_coordinates);
+    }
+
+    private List<Vector2> GetValuesRel(int resolution, List<Vector2> textCoords)
+    {
+        List<Vector2> values = new List<Vector2>();
+        foreach(Vector2 v in textCoords)
+        {
+            values.Add(new Vector2(v.x / resolution, 1 - v.y / resolution));
+        }
+
+        return values;
     }
 
     void AddAllFaces()
