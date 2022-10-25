@@ -16,12 +16,14 @@ public class Pipeline : MonoBehaviour
     {
         //Rotation
 
-        string path = "Assets/Output.txt";
+        MyModel = new JModel();
+        MyModel.CreateUnityGameObject();
+
+/*        string path = "Assets/Output.txt";
         //Write some text to the test.txt file
         StreamWriter writer = new StreamWriter(path, true);
 
-        MyModel = new JModel();
-        MyModel.CreateUnityGameObject();
+        
 
 
         verts = MyModel.Verticies;
@@ -176,7 +178,7 @@ public class Pipeline : MonoBehaviour
 
         print_2D(projectionByHand, writer8);
 
-        writer8.Close();
+        writer8.Close();*/
 
 
         //print_All_Verts_Matrix();
@@ -184,6 +186,59 @@ public class Pipeline : MonoBehaviour
         //print_Translation_Matrix_Image();
         //print_Viewing_Matrix_Image();
         //print_Single_Matrix_Of_Transformation();
+
+        Vector2 startPoint =new Vector2(0.5f, -0.1f);
+
+        Vector2 endPoint = new Vector2(1,-1);
+
+        Outcode start = new Outcode(startPoint);
+
+        Outcode end = new Outcode(endPoint);
+
+        
+           
+
+
+        //Line_Clip();
+
+    }
+
+    private bool Line_Clip(ref Vector2 Start, ref Vector2 End)
+    {
+        Outcode startOutcode = new Outcode(Start);
+        Outcode endOutcode = new Outcode(End);
+
+        Outcode inScrean = new Outcode();
+
+        if((startOutcode + endOutcode) == inScrean)
+        {
+            return true;
+        }
+
+        if((startOutcode * endOutcode) != inScrean)
+        {
+            return false;
+        }
+
+        if(startOutcode == inScrean)
+        {
+            return Line_Clip(ref End, ref Start);
+        }
+
+        List<Vector2> StartIntersections = intersectEdge(Start, End, startOutcode);
+
+
+        foreach (Vector2 vp in StartIntersections)
+        {
+            Outcode TempOut = new Outcode(vp);
+            if (TempOut == new Outcode())
+            {
+                Start = vp;
+                return Line_Clip(ref Start, ref End);
+            }
+        }
+
+        return false;
     }
 
     private List<Vector3> get_image(List<Vector3> list_verts, Matrix4x4 transform_matrix)
@@ -405,6 +460,37 @@ public class Pipeline : MonoBehaviour
             writer.WriteLine(v.x.ToString() + "   ,   " + v.y.ToString());
 
         }
+    }
+
+    List<Vector2> intersectEdge(Vector2 start, Vector2 end, Outcode pointOutCode)
+    {
+        float m = (end.y - start.y) / (end.x - start.x);
+        List<Vector2> Intersections = new List<Vector2>();
+
+
+        if(pointOutCode.up)
+        {
+            Intersections.Add(new Vector2(start.x + (1 / m) * (1 - start.y), 1));
+        }
+
+        if (pointOutCode.down)
+        {
+            Intersections.Add(new Vector2(start.x + (1 / m) * (-1 - start.y), -1));
+
+        }
+
+        if (pointOutCode.left)
+        {
+            Intersections.Add(new Vector2(-1, start.y + m*(-1 -start.x)));
+        }
+
+        if (pointOutCode.right)
+        {
+            Intersections.Add(new Vector2(1, start.y + m * (1 - start.x)));
+        }
+
+        return Intersections;
+
     }
 
 
