@@ -576,7 +576,7 @@ public class Pipeline : MonoBehaviour
             Destroy(newTexture);
 
 
-        newTexture = new Texture2D(1536, 1536);
+        newTexture = new Texture2D(2560, 2560);
        
         ourScreen.material.mainTexture = newTexture;
 
@@ -625,6 +625,6 @@ public class Pipeline : MonoBehaviour
 
     private Vector2Int Convert(Vector2 point)
     {
-        return new Vector2Int((int)(511 * (point.x + 1) / 2), (int)(511 * (point.y + 1) / 2));
+        return new Vector2Int((int)(255 * (point.x + 1) / 2), (int)(255 * (point.y + 1) / 2));
     }
 }
