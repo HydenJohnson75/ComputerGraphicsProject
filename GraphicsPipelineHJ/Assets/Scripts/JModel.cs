@@ -6,7 +6,7 @@ public class JModel
 {
     internal List<Vector3> Verticies;
 
-    List<Vector3Int> Faces;
+    internal List<Vector3Int> Faces;
 
     List<Vector2> _texture_coordinates;
 
