@@ -187,14 +187,14 @@ public class Pipeline : MonoBehaviour
         //print_Viewing_Matrix_Image();
         //print_Single_Matrix_Of_Transformation();
 
-        Vector2 startPoint =new Vector2(0.5f, -0.1f);
+        /*Vector2 startPoint =new Vector2(0.5f, -0.1f);
 
         Vector2 endPoint = new Vector2(1,-1);
 
         Outcode start = new Outcode(startPoint);
 
         Outcode end = new Outcode(endPoint);
-
+*/
         
            
 
@@ -231,7 +231,7 @@ public class Pipeline : MonoBehaviour
         foreach (Vector2 vp in StartIntersections)
         {
             Outcode TempOut = new Outcode(vp);
-            if (TempOut == new Outcode())
+            if (TempOut == inScrean)
             {
                 Start = vp;
                 return Line_Clip(ref Start, ref End);
@@ -576,7 +576,7 @@ public class Pipeline : MonoBehaviour
             Destroy(newTexture);
 
 
-        newTexture = new Texture2D(512, 512);
+        newTexture = new Texture2D(1536, 1536);
        
         ourScreen.material.mainTexture = newTexture;
 
