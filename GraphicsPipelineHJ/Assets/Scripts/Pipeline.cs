@@ -6,18 +6,18 @@ using System.IO;
 
 public class Pipeline : MonoBehaviour
 {
-
+    Texture2D newTexture;
     List<Vector3> verts;
     JModel MyModel;
-
+    Renderer ourScreen;
 
     // Start is called before the first frame update
     void Start()
     {
         //Rotation
-
+        ourScreen = FindObjectOfType<Renderer>();
         MyModel = new JModel();
-        MyModel.CreateUnityGameObject();
+       // MyModel.CreateUnityGameObject();
 
 /*        string path = "Assets/Output.txt";
         //Write some text to the test.txt file
@@ -493,10 +493,138 @@ public class Pipeline : MonoBehaviour
 
     }
 
+    List<Vector2Int> bresh(Vector2Int start, Vector2Int end)
+    {
+        List<Vector2Int> outputList = new List<Vector2Int>();
+
+        int dx = end.x - start.x;
+
+        if (dx < 0) return bresh(end, start);
+
+        int dy = end.y - start.y;
+
+        if (dy < 0)
+            return NegY(bresh(NegY(start), NegY(end)));
+
+        int two_dy = dy * 2;  // positive
+
+        if (dy > dx)
+            return SwapXY(bresh(SwapXY(start), SwapXY(end)));
+
+
+        int twody_dx = 2 * (dy - dx);  // negative
+
+        int p = 2 * dy - dx;
+
+        int y = start.y;
+
+        for (int x = start.x; x<= end.x; x++)
+        {
+            outputList.Add(new Vector2Int(x, y));
+
+            if (p < 0)
+                p += two_dy;
+            else
+            {
+                y ++;
+                p += twody_dx;
+
+            }
+        }
+
+        return outputList;
+
+
+
+
+    }
+
+    private List<Vector2Int> SwapXY(List<Vector2Int> pointList)
+    {
+        List<Vector2Int> outputList = new List<Vector2Int>();
+
+        foreach (Vector2Int point in pointList)
+            outputList.Add(SwapXY(point));
+
+        return outputList;
+    }
+
+    private Vector2Int SwapXY(Vector2Int point)
+    {
+        return new Vector2Int(point.y, point.x);
+    }
+
+    private List<Vector2Int> NegY(List<Vector2Int> pointList)
+    {
+        List<Vector2Int> outputList = new List<Vector2Int>();
+
+        foreach (Vector2Int point in pointList)
+            outputList.Add(NegY(point));
+
+        return outputList;
+
+    }
+
+    private Vector2Int NegY(Vector2Int point)
+    {
+        return new Vector2Int(point.x, -point.y);
+    }
 
     // Update is called once per frame
     void Update()
+    {   if (newTexture)
+            Destroy(newTexture);
+
+
+        newTexture = new Texture2D(512, 512);
+       
+        ourScreen.material.mainTexture = newTexture;
+
+       List<Vector3> verts  =  MyModel.Verticies;
+        Matrix4x4 translate = Matrix4x4.TRS(new Vector3(0, 0, 100), Quaternion.identity, Vector3.one);
+        Matrix4x4 viewing_matrix = Matrix4x4.LookAt(Vector3.zero,  new Vector3(0, 0, 10), Vector3.up);
+        Matrix4x4 projection_matrix = Matrix4x4.Perspective(90, 1, 1, 1000);
+        Matrix4x4 superMatrix = projection_matrix *  viewing_matrix * translate ;
+        verts = get_image(verts, superMatrix);
+
+
+        foreach (Vector3Int faceVerts in MyModel.Faces)
+        {
+            drawline(verts[faceVerts.x], verts[faceVerts.y]);
+            drawline(verts[faceVerts.y], verts[faceVerts.z]);
+            drawline(verts[faceVerts.z], verts[faceVerts.x]);
+
+
+        }
+
+
+        newTexture.Apply();
+
+
+
+
+
+
+        //
+
+    }
+
+    private void drawline(Vector3 start, Vector3 end)
     {
-        
+
+        Vector2 startR = new Vector2(start.x/start.z, start.y/start.z), endR = new Vector2(end.x/end.z, end.y/end.z);
+        if (Line_Clip(ref startR, ref endR))
+        {
+            List<Vector2Int> pixels = bresh(Convert(start), Convert(end));
+            foreach (Vector2Int pixel in pixels)
+                newTexture.SetPixel(pixel.x, pixel.y, Color.black);
+
+     
+        }
+    }
+
+    private Vector2Int Convert(Vector2 point)
+    {
+        return new Vector2Int((int)(511 * (point.x + 1) / 2), (int)(511 * (point.y + 1) / 2));
     }
 }
