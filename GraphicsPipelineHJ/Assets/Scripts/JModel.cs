@@ -236,6 +236,7 @@ public class JModel
         //Bottom
 
         Faces.Add(new Vector3Int(15,14,30)); normals.Add(new Vector3(0, -1, 0)); _texture_index_list.Add(new Vector3Int(15, 14, 30));
+        Faces.Add(new Vector3Int(15, 30, 31)); normals.Add(new Vector3(0, -1, 0)); _texture_index_list.Add(new Vector3Int(15, 30, 31));
         Faces.Add(new Vector3Int(11,26,27)); normals.Add(new Vector3(0, -1, 0)); _texture_index_list.Add(new Vector3Int(11, 26, 27));
         Faces.Add(new Vector3Int(11,10,26)); normals.Add(new Vector3(0, -1, 0)); _texture_index_list.Add(new Vector3Int(11, 10, 26));
         Faces.Add(new Vector3Int(4,20,5)); normals.Add(new Vector3(-0.5f, -1, 0)); _texture_index_list.Add(new Vector3Int(4, 20, 5));
