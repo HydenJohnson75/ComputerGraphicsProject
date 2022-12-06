@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.Device;
 
 public class Pipeline : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Pipeline : MonoBehaviour
     JModel MyModel;
     Renderer ourScreen;
     private float angle;
+    private Vector3 j_Position;
 
     // Start is called before the first frame update
     void Start()
@@ -582,8 +584,10 @@ public class Pipeline : MonoBehaviour
         ourScreen.material.mainTexture = newTexture;
 
        List<Vector3> verts  =  MyModel.Verticies;
-        Matrix4x4 translate = Matrix4x4.TRS(new Vector3(0, 0, 10), Quaternion.AngleAxis(angle, Vector3.one), Vector3.one);
-        angle++;
+        j_Position.z = 10;
+        Matrix4x4 translate = Matrix4x4.TRS(j_Position, Quaternion.AngleAxis(angle, Vector3.one), Vector3.one);
+        //angle++;
+        //j_Position += new Vector3(0, -1, 0) * Time.deltaTime;
         Matrix4x4 viewing_matrix = Matrix4x4.LookAt(Vector3.zero,  new Vector3(0, 0, 10), Vector3.up);
         Matrix4x4 projection_matrix = Matrix4x4.Perspective(90, 1, 1, 1000);
         Matrix4x4 superMatrix = projection_matrix *  viewing_matrix * translate ;
@@ -612,14 +616,8 @@ public class Pipeline : MonoBehaviour
 
         newTexture.Apply();
 
-
-
-
-
-
-        //
-
     }
+
 
     private Vector2 divideZ(Vector3 v)
     {
@@ -637,14 +635,12 @@ public class Pipeline : MonoBehaviour
             List<Vector2Int> pixels = bresh(Convert(startR), Convert(endR));
             foreach (Vector2Int pixel in pixels)
                SetPixel(pixel, Color.black);
-
-     
         }
     }
 
     private void SetPixel(Vector2Int pixel, Color black)
     {
-        throw new NotImplementedException();
+        newTexture.SetPixel(pixel.x, pixel.y, black);
     }
 
     private Vector2Int Convert(Vector2 point)
