@@ -10,6 +10,7 @@ public class Pipeline : MonoBehaviour
     List<Vector3> verts;
     JModel MyModel;
     Renderer ourScreen;
+    private float angle;
 
     // Start is called before the first frame update
     void Start()
@@ -576,12 +577,13 @@ public class Pipeline : MonoBehaviour
             Destroy(newTexture);
 
 
-        newTexture = new Texture2D(2560, 2560);
+        newTexture = new Texture2D(256, 256);
        
         ourScreen.material.mainTexture = newTexture;
 
        List<Vector3> verts  =  MyModel.Verticies;
-        Matrix4x4 translate = Matrix4x4.TRS(new Vector3(0, 0, 100), Quaternion.identity, Vector3.one);
+        Matrix4x4 translate = Matrix4x4.TRS(new Vector3(0, 0, 10), Quaternion.AngleAxis(angle, Vector3.one), Vector3.one);
+        angle++;
         Matrix4x4 viewing_matrix = Matrix4x4.LookAt(Vector3.zero,  new Vector3(0, 0, 10), Vector3.up);
         Matrix4x4 projection_matrix = Matrix4x4.Perspective(90, 1, 1, 1000);
         Matrix4x4 superMatrix = projection_matrix *  viewing_matrix * translate ;
@@ -590,9 +592,19 @@ public class Pipeline : MonoBehaviour
 
         foreach (Vector3Int faceVerts in MyModel.Faces)
         {
-            drawline(verts[faceVerts.x], verts[faceVerts.y]);
-            drawline(verts[faceVerts.y], verts[faceVerts.z]);
-            drawline(verts[faceVerts.z], verts[faceVerts.x]);
+            Vector2 v1, v2, v3;
+            v1 = divideZ(verts[faceVerts.x]);
+            v2 = divideZ(verts[faceVerts.y]);
+            v3 = divideZ(verts[faceVerts.z]);
+
+            if(Vector3.Cross((v2-v1), (v3-v2)).z < 0)
+            {
+                drawline(v1, v2, verts[faceVerts.x], verts[faceVerts.y]);
+                drawline(v2, v3, verts[faceVerts.y], verts[faceVerts.z]);
+                drawline(v3, v1, verts[faceVerts.z], verts[faceVerts.x]);
+            }
+            
+            
 
 
         }
@@ -609,18 +621,30 @@ public class Pipeline : MonoBehaviour
 
     }
 
-    private void drawline(Vector3 start, Vector3 end)
+    private Vector2 divideZ(Vector3 v)
+    {
+        return new Vector2(v.x / v.z, v.y / v.z);
+
+    }
+
+    private void drawline(Vector2 start, Vector2 end, Vector3 v1, Vector3 v2)
     {
 
-        Vector2 startR = new Vector2(start.x/start.z, start.y/start.z), endR = new Vector2(end.x/end.z, end.y/end.z);
+        Vector2 startR = start, endR = end;
+
         if (Line_Clip(ref startR, ref endR))
         {
-            List<Vector2Int> pixels = bresh(Convert(start), Convert(end));
+            List<Vector2Int> pixels = bresh(Convert(startR), Convert(endR));
             foreach (Vector2Int pixel in pixels)
-                newTexture.SetPixel(pixel.x, pixel.y, Color.black);
+               SetPixel(pixel, Color.black);
 
      
         }
+    }
+
+    private void SetPixel(Vector2Int pixel, Color black)
+    {
+        throw new NotImplementedException();
     }
 
     private Vector2Int Convert(Vector2 point)
